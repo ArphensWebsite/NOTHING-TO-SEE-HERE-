@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTHING TO DRAG HERE AT ALL!</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image: url('https://lh3.googleusercontent.com/pw/AP1GczMDqz0NC4ZywFaBVGaq0c-tmX2QVXMgt58BGb1kWWqhfPlhi6_06PXGmpP7wylVnBwTLqC0stTQsicJyqajqIh8LEZ4Q6W1kUMeCSaLIlJyYVmfgA=w2400?source=screenshot.guru');
+            background-size: 640px 905px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .draggable {
+            position: absolute;
+            width: 640px;
+            height: 905px;
+            cursor: move;
+            top: 0; /* Start at the top */
+            left: 0; /* Start at the left */
+        }
+    </style>
+</head>
+<body>
+    <img src="https://lh3.googleusercontent.com/pw/AP1GczNBVMek-hyD7_RcOQk9BBAg1EMTu4mv5JCBxXEx6Nb2mK7uemqic6FFQSDWuRC0LXVICwI83xD1IWTezYH8yPKhpDL0w50uHNHy9UuvwTbB9LAdow=w2400?source=screenshot.guru" class="draggable" id="draggableElement">
+
+    <script>
+        const draggableElement = document.getElementById('draggableElement');
+
+        let offsetX, offsetY, isDragging = false;
+
+        function startDragging(e) {
+            isDragging = true;
+            offsetX = e.clientX - draggableElement.getBoundingClientRect().left;
+            offsetY = e.clientY - draggableElement.getBoundingClientRect().top;
+        }
+
+        function drag(e) {
+            if (isDragging) {
+                draggableElement.style.left = `${e.clientX - offsetX}px`;
+                draggableElement.style.top = `${e.clientY - offsetY}px`;
+            }
+        }
+
+        function stopDragging() {
+            isDragging = false;
+        }
+
+        // Mouse events
+        draggableElement.addEventListener('mousedown', startDragging);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDragging);
+
+        // Touch events
+        draggableElement.addEventListener('touchstart', (e) => {
+            // Prevent default to avoid scrolling while dragging
+            e.preventDefault();
+            startDragging(e.touches[0]);
+        });
+        document.addEventListener('touchmove', (e) => {
+            drag(e.touches[0]);
+        });
+        document.addEventListener('touchend', stopDragging);
+    </script>
+</body>
